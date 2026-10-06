@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f4f2eb">
+  <title>台灣政黨與人口互動地圖</title>
+  <meta name="description" content="三黨好感度、支持度與22縣市人口結構互動地圖">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="回到地圖首頁">
+      <span class="brand-mark" aria-hidden="true">島</span>
+      <span><b>台灣政黨與人口互動地圖</b><small>TAIWAN CIVIC ATLAS</small></span>
+    </a>
+    <div class="top-meta"><span class="private-badge">● 私人網站</span><span>資料查核 2026.10</span></div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">POLITICS × DEMOGRAPHY</p>
+        <h1>看見每個縣市的<br><em>政黨版圖與人口輪廓</em></h1>
+        <p class="hero-copy">把選舉結果、全國民調與人口統計放在同一個介面，但保留各自的時間與分母。點選縣市，從政黨票一路看到性別、年齡與族群。</p>
+      </div>
+      <div class="date-stack" aria-label="資料時點">
+        <div><strong>2026.06</strong><span>全國好感度／支持度民調</span></div>
+        <div><strong>2025.12</strong><span>縣市人口、性別、年齡</span></div>
+        <div><strong>2024.01</strong><span>縣市立委政黨票</span></div>
+        <div><strong>2014</strong><span>縣市族群認同調查</span></div>
+      </div>
+    </section>
+
+    <section class="scope-alert">
+      <span class="scope-icon">i</span>
+      <p><strong>先讀口徑：</strong>上方民調是全國成年民眾的當期態度；地圖著色是 2024 立委政黨票，不代表 2026 縣市民調。人口結構與族群資料也各有時點。</p>
+      <button data-tab-jump="method">資料說明</button>
+    </section>
+
+    <section class="poll-section" aria-labelledby="poll-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">NATIONAL PULSE</p><h2 id="poll-title">三黨全國民意溫度</h2></div>
+        <p>美麗島電子報 2026 年 6 月國政民調<br>n＝1,078 · 最大抽樣誤差 ±3.0%</p>
+      </div>
+      <div id="poll-cards" class="poll-cards"></div>
+    </section>
+
+    <nav class="tabs" aria-label="主要功能">
+      <button class="tab active" data-tab="explore" aria-selected="true">地圖探索</button>
+      <button class="tab" data-tab="compare" aria-selected="false">兩地比較</button>
+      <button class="tab" data-tab="method" aria-selected="false">資料與查核</button>
+    </nav>
+
+    <section id="explore-view" class="view active">
+      <div class="view-heading">
+        <div><p class="eyebrow">COUNTY EXPLORER</p><h2>2024 立委政黨票地圖</h2></div>
+        <div class="party-switch" id="party-switch" aria-label="選擇政黨"></div>
+      </div>
+
+      <div class="explorer-grid">
+        <aside class="county-rail">
+          <div class="rail-title"><strong>22 縣市</strong><span id="rail-metric">政黨票 %</span></div>
+          <div id="county-list" class="county-list"></div>
+        </aside>
+
+        <section class="map-card">
+          <div class="map-card-head">
+            <div><span class="legend-dot" id="legend-dot"></span><strong id="map-title"></strong></div>
+            <span>顏色越深，得票率越高</span>
+          </div>
+          <div class="map-wrap">
+            <svg id="taiwan-map" viewBox="0 0 460 625" role="img" aria-label="台灣22縣市政黨票互動地圖"></svg>
+            <div id="map-tooltip" class="map-tooltip" role="status" hidden></div>
+          </div>
+          <div class="map-scale"><span>低</span><i id="map-gradient"></i><span>高</span><small>離島以圖框呈現；位置與比例尺已調整</small></div>
+        </section>
+
+        <aside id="county-detail" class="detail-card" aria-live="polite"></aside>
+      </div>
+    </section>
+
+    <section id="compare-view" class="view">
+      <div class="view-heading compare-heading">
+        <div><p class="eyebrow">SIDE BY SIDE</p><h2>兩個縣市，使用同一把尺</h2></div>
+        <button id="swap-counties" class="outline-button">⇄ 交換兩地</button>
+      </div>
+      <div class="compare-selectors">
+        <label>地點 A<select id="compare-a"></select></label>
+        <label>地點 B<select id="compare-b"></select></label>
+      </div>
+      <div id="compare-summary" class="compare-summary"></div>
+      <div id="compare-table" class="compare-table-wrap"></div>
+    </section>
+
+    <section id="method-view" class="view">
+      <div class="view-heading">
+        <div><p class="eyebrow">DATA & METHODOLOGY</p><h2>資料來源、分母與缺漏</h2></div>
+        <span class="verified-badge">✓ 22 縣市已驗算</span>
+      </div>
+      <div id="audit-cards" class="audit-cards"></div>
+      <div class="method-grid">
+        <article>
+          <span class="source-no">01</span><h3>全國民調</h3>
+          <p>美麗島電子報 2026 年 6 月國政民調，調查 2026/6/22–24，以住宅電話與行動電話 CATI 完訪 1,078 位 20 歲以上民眾。支持度來自未提示黨名的政黨傾向題；好感度與反感度為逐黨詢問。</p>
+          <a href="https://www.my-formosa.com.tw/DOC_226926.htm" target="_blank" rel="noreferrer">開啟完整民調 ↗</a>
+        </article>
+        <article>
+          <span class="source-no">02</span><h3>縣市政黨票</h3>
+          <p>2024/1/13 第 11 屆立法委員全國不分區政黨票。縣市比例以各縣市有效票為分母；地圖只呈現國民黨、民進黨、民眾黨，三者未達 100% 的部分是其他政黨。</p>
+          <a href="https://vote2024.cec.gov.tw/zh-TW/indexP0.html" target="_blank" rel="noreferrer">中央選舉委員會 ↗</a>
+        </article>
+        <article>
+          <span class="source-no">03</span><h3>人口、性別、年齡</h3>
+          <p>內政部戶政司「各縣市人口數按性別及五歲年齡組分」，資料時點為 2025 年底。年齡統一彙整為 0–14、15–64、65 歲以上三階段；三組合計逐縣等於總人口。</p>
+          <a href="https://www.ris.gov.tw/info-popudata/app/awFastDownload/file/y0s1-00000.xls/y0s1/00000/" target="_blank" rel="noreferrer">下載官方 XLS ↗</a>
+        </article>
+        <article>
+          <span class="source-no">04</span><h3>族群認同</h3>
+          <p>客委會 2014 年單一自我認定調查，依居住縣市呈現。客家＝臺灣客家＋大陸客家；外省＝大陸各省市人；原住民為自我認同，與戶籍法定身分不同。澎湖、金門、連江的大陸客家欄原表為「—」。</p>
+          <a href="https://www.hakka.gov.tw/File/Attach/1990/1/491012343871.pdf#page=126" target="_blank" rel="noreferrer">開啟官方報告 ↗</a>
+        </article>
+      </div>
+      <section class="data-table-section">
+        <div class="section-heading"><div><p class="eyebrow">COUNTY DATA</p><h2>22 縣市核心資料</h2></div><p>政黨票與人口分屬不同時點<br>請勿直接解讀為因果關係</p></div>
+        <div id="county-data-table" class="data-table-wrap"></div>
+      </section>
+      <div class="reading-note">
+        <strong>閱讀限制</strong>
+        <p>縣市政黨票是一次選舉的實際投票結果，適合比較地區差異，不能代替現在民調。全國民調樣本可做整體估計，不足以產生 22 縣市的可靠好感度。族群資料較早，保留是為了延續原網站的統一資料集；介面明確標示 2014，未與 2025 人口當作同一期資料。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>TAIWAN CIVIC ATLAS</span><span>中立呈現 · 私人使用 · 各來源版權歸原機關</span></footer>
+  <script src="app.js" defer></script>
+</body>
+</html>
